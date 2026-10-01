@@ -45,8 +45,9 @@ Tidak ada file migration. **Schema = code** di `src/db/schema.ts` (`SCHEMA_SQL`)
     `requireClassNotInMaintenance()` di `src/lib/maintenance.ts` dipanggil dari
     `admin/layout.tsx` + `student/layout.tsx` untuk hard refresh/URL langsung,
     (3) `RoleGuard` (client) untuk navigasi antar halaman karena layout tidak
-    re-run saat navigasi klien, (4) `MaintenanceWatcher` di
-    `src/app/maintenance/` poll `/api/auth/me` tiap 15 detik lalu masuk sendiri.
+re-run saat navigasi klien, (4) `MaintenanceRecovery` di
+     `src/app/maintenance/maintenance-recovery.tsx` poll `/api/auth/me` tiap 15
+     detik lalu masuk sendiri.
   - `/api/auth/me` SENGAJA tidak ikut diblokir — itu yang membuat pemulihan
     otomatis dan deteksi sesi bisa jalan.
   - `is_active=false` ≠ `maintenance=true`: yang pertama kelas ditutup permanen
