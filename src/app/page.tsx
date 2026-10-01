@@ -1,69 +1,141 @@
-import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { ChevronRight } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { SchoolLogo } from "@/components/school-logo";
+import { DEFAULT_SCHOOL, SCHOOL_FACTS } from "@/lib/school";
 
-export default function Home() {
+export const metadata: Metadata = {
+  // `absolute`: template dari root layout tidak berlaku untuk segment root,
+  // jadi nama sekolah ditulis eksplisit agar tidak hilang dari judul.
+  title: {
+    absolute: `Kas Sekolah · ${DEFAULT_SCHOOL.name}`,
+  },
+  description:
+    "Sistem kas resmi SMP Negeri 17 Tangerang Selatan untuk mencatat iuran, menerima pembayaran, dan menyusun laporan kas.",
+  alternates: {
+    canonical: "/",
+  },
+};
+
+const FUNGSI = [
+  {
+    title: "Iuran Kas",
+    description:
+      "Nominal iuran bulanan dicatat untuk setiap siswa, lengkap dengan jatuh tempo pembayarannya.",
+  },
+  {
+    title: "Pembayaran Kas",
+    description:
+      "Penerimaan pembayaran dicatat bendahara, baik melalui transfer maupun setor langsung.",
+  },
+  {
+    title: "Laporan Kas",
+    description:
+      "Admin, bendahara, dan kepala sekolah memantau pemasukan serta pengeluaran dalam satu laporan.",
+  },
+] as const;
+
+const FAKTA = [
+  { label: "Akreditasi", value: SCHOOL_FACTS.accreditation },
+  { label: "Kurikulum", value: SCHOOL_FACTS.kurikulum },
+  { label: "Kepala Sekolah", value: SCHOOL_FACTS.principal },
+  { label: "Tahun Ajaran", value: DEFAULT_SCHOOL.academicYear },
+] as const;
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+    <div className="light-scope flex min-h-dvh flex-col bg-background text-foreground antialiased">
+      <div className="grid flex-1 lg:grid-cols-[7fr_5fr]">
+        {/* Kolom dominan: identitas produk. Panel institusional di sebelahnya
+            sengaja lebih sempit, jadi hierarchy Institution → Product →
+            Action sudah terbaca dari proporsi, tanpa ukuran yang bertengkar. */}
+        <main className="flex flex-col justify-between px-5 py-12 sm:px-8 sm:py-16">
+          <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center">
+            {/* Logo jadi bagian hero, bukan header terpisah: di atas nama
+                sekolah, dalam kotak kartu putih seperti cap resmi di kertas. */}
+            <SchoolLogo
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-border bg-card p-3.5 text-teal shadow-xs"
+              iconClassName="h-7 w-7"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+            {/* Identitas institusional: sengaja lebih ringan dari produk. */}
+            <p className="mt-8 text-sm font-medium text-muted-foreground">{DEFAULT_SCHOOL.name}</p>
+
+            <h1 className="mt-3 text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+              Kas Sekolah
+            </h1>
+
+            <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
+              Sistem kas resmi {DEFAULT_SCHOOL.name}. Satu tempat untuk mencatat iuran, menerima
+              pembayaran, dan menyusun laporan kas.
+            </p>
+
+            <div className="mt-9">
+              <Link
+                href="/login"
+                className={buttonVariants({
+                  size: "lg",
+                  className: "h-11 w-full sm:w-auto",
+                })}
+              >
+                Masuk ke Kas Sekolah
+                {/* Satu-satunya arrow di halaman: penanda bahwa ini gerbang
+                    masuk, bukan tombol yang menjalankan aksi di tempat. */}
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <p className="mt-4 text-xs text-muted-foreground">
+                Pilih masuk sebagai siswa atau pengelola tata usaha.
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-12 text-xs text-muted-foreground">
+            © {new Date().getFullYear()} {DEFAULT_SCHOOL.name}
+          </p>
+        </main>
+
+        {/* Panel institusional. Cermin dari /login yang menaruh panelnya di
+            kiri: dua halaman publik jadi satu bahasa visual tanpa jadi layar
+            yang sama. Motifnya garis rambut pemisah baris, karena produk ini
+            buku kas. */}
+        <aside
+          aria-label="Identitas sekolah dan fungsi sistem"
+          className="flex flex-col justify-between bg-brand-panel px-5 py-10 text-brand-panel-ink sm:px-8 lg:px-10 lg:py-14"
+        >
+          <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-10">
+            <div>
+              <p className="text-[11px] font-semibold tracking-[0.14em] text-white/75">
+                {SCHOOL_FACTS.motto}
+              </p>
+              <dl className="mt-5 divide-y divide-white/20 border-t border-white/20">
+                {FAKTA.map((fakta) => (
+                  <div key={fakta.label} className="flex items-baseline justify-between gap-4 py-2.5">
+                    <dt className="shrink-0 text-xs font-medium text-white/75">{fakta.label}</dt>
+                    <dd className="text-right text-sm font-semibold text-white">{fakta.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <section aria-labelledby="fungsi">
+              <h2 id="fungsi" className="text-xs font-medium text-white/75">
+                Fungsi sistem
+              </h2>
+              <dl className="mt-3 divide-y divide-white/20 border-t border-white/20">
+                {FUNGSI.map((fungsi) => (
+                  <div key={fungsi.title} className="py-4">
+                    <dt className="text-sm font-semibold text-white">{fungsi.title}</dt>
+                    <dd className="mt-1 text-[13px] leading-relaxed text-white/80">
+                      {fungsi.description}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

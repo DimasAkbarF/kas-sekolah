@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# local postgres (pglite)
+/.data/
 
 # vercel
 .vercel
@@ -39,3 +43,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ai agent tools (scratch dirs, worktrees, generated critiques)
+/.kilo
+/.impeccable
+/.claude
+/.cursor
+/.gemini
+/.antigravity
+/anti-slop
+opencode.json

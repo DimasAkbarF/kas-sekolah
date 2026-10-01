@@ -1,26 +1,541 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-ibm-plex);
   --font-mono: var(--font-geist-mono);
+  /* Tidak ada keluarga display terpisah: judul memakai IBM Plex Sans dengan
+     bobot lebih tebal. `font-heading` tetap dipetakan agar utility yang
+     memakainya (dialog, sheet) tidak jatuh ke sans default browser. */
+  --font-heading: var(--font-ibm-plex);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-chart-grid: var(--chart-grid);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+  --color-success: var(--success); /* 5.02:1 di putih (sebelumnya #27AE60 = 2.87:1) */
+  --color-success-foreground: var(--success-foreground);
+  /* Lima keluarga tint. bg/ink/line = warna latar, warna teks, warna border.
+     Semuanya satu token per peran, jadi tema gelap hanya perlu dibaca dari
+     `.dark` — tidak ada pasangan `dark:` yang bisa lupa atau tidak sinkron. */
+  --color-success-soft: var(--success-soft);
+  --color-success-ink: var(--success-ink);
+  --color-success-line: var(--success-line);
+  --color-success-soft-hover: var(--success-soft-hover);
+  /* Warning WAJIB berbeda dari destructive. Sebelumnya keduanya #C4441F, jadi
+     "tagihan belum lunas" tampil merah seperti error. */
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-ink: var(--warning-ink);
+  --color-warning-line: var(--warning-line);
+  --color-warning-soft-hover: var(--warning-soft-hover);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-ink: var(--danger-ink);
+  --color-danger-line: var(--danger-line);
+  --color-danger-soft-hover: var(--danger-soft-hover);
+  --color-danger-strong-soft: var(--danger-strong-soft);
+  --color-danger-strong-ink: var(--danger-strong-ink);
+  --color-danger-strong-line: var(--danger-strong-line);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-soft: var(--info-soft);
+  --color-info-ink: var(--info-ink);
+  --color-info-line: var(--info-line);
+  --color-info-soft-hover: var(--info-soft-hover);
+  --color-neutral-soft: var(--neutral-soft);
+  --color-neutral-ink: var(--neutral-ink);
+  --color-neutral-line: var(--neutral-line);
+  --color-teal: var(--teal);
+  --color-teal-light: var(--teal-light);
+  --color-teal-dark: var(--teal-dark);
+  --color-teal-soft: var(--teal-soft);
+  --color-teal-ink: var(--teal-ink);
+  --color-teal-line: var(--teal-line);
+  --color-teal-soft-hover: var(--teal-soft-hover);
+  /* Permukaan brand (panel sisi kiri auth, header kwitansi). Teal terang
+     dengan teks putih gagal kontras di light mode, jadi nilai gelap. */
+  --color-brand-panel: var(--brand-panel);
+  --color-brand-panel-ink: var(--brand-panel-ink);
+  --color-brand-panel-soft: var(--brand-panel-soft);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+  --color-gold-ink: var(--gold-ink);
+  --color-gold-line: var(--gold-line);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-soft-hover: var(--gold-soft-hover);
+  --color-coral: var(--coral);
+  --color-coral-light: var(--coral-light);
+  --color-coral-dark: var(--coral-dark);
+  --color-cream: var(--cream);
+  --color-cream-ink: var(--cream-ink);
+  --color-cream-line: var(--cream-line);
+  --color-cream-soft-hover: var(--cream-soft-hover);
+  --color-sky: var(--sky);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #EFF8F7; /* Flip7 Surface Base: subtle, calm, warm teal tint */
+  --foreground: #153331; /* Deep Teal-Slate */
+  --card: #FFFFFF; /* Surface Card */
+  --card-foreground: #153331;
+  --popover: #FFFFFF;
+  --popover-foreground: #153331;
+  --primary: #177A75; /* Deep Teal. #2BA8A2 gagal sebagai warna teks (2.91:1 di
+     putih, dipakai untuk link) dan tidak cukup gelap untuk teks putih (2.91:1).
+     Nilai ini: teks putih 5.15:1, teks primary di putih 5.15:1. */
+  --primary-foreground: #FFFFFF;
+  --secondary: #E8F6F5; /* Primary BG / Very Light Teal */
+  --secondary-foreground: #1E8C86;
+  --muted: #EEF7F6;
+  --muted-foreground: #4E7370; /* 4.85:1 di background halaman (sebelumnya 4.13:1) */
+  --accent: #E8F6F5;
+  --accent-foreground: #1E8C86;
+  --destructive: #C4441F; /* Coral. #EF6C4A hanya 3.04:1 di putih — gagal untuk
+     teks error maupun teks putih di atasnya. Nilai ini 5.01:1 untuk keduanya. */
+  --destructive-foreground: #FFFFFF;
+  --border: #D4EAE7; /* Crisp Teal Border */
+  --input: #5E9A96; /* 3.21:1 vs putih — batas input harus terlihat (WCAG 1.4.11) */
+  --ring: #177A75;
+  --chart-1: #2BA8A2; /* Teal */
+  --chart-2: #1B7F4B; /* Success green (sama dengan --success) */
+  --chart-3: #EF6C4A; /* Coral */
+  --chart-4: #5DADE2; /* Sky Blue */
+  --chart-5: #FFD23F; /* Gold */
+
+  /* ── keluarga tint: light ─────────────────────────────────────────────── */
+  --teal: #2ba8a2;
+  --teal-light: #3cc4bd;
+  --teal-dark: #1e8c86;
+  --teal-soft: #e8f6f5;
+  --teal-ink: #1e8c86; /* 4.6:1 di --teal-soft */
+  --teal-line: #bde3df;
+  --teal-soft-hover: #d5f2f0;
+
+  --success: #1b7f4b; /* 5.0:1 di putih */
+  --success-foreground: #ffffff; /* teks di atas surface success */
+  --success-soft: #ebf7ee;
+  --success-ink: #1b7f4b; /* 4.9:1 di --success-soft */
+  --success-line: #b6e4c1;
+  --success-soft-hover: #dbf2e1;
+
+  --warning: #8a5a00; /* 5.4:1 di putih — amber, bukan merah */
+  --warning-foreground: #ffffff;
+  --warning-soft: #fff9e6;
+  --warning-ink: #6e5400; /* 7.0:1 di --warning-soft */
+  --warning-line: #ffe47a;
+  --warning-soft-hover: #fff3cc;
+
+  --danger-soft: #fdf2ef;
+  --danger-ink: #d45233; /* 4.6:1 di --danger-soft */
+  --danger-line: #f8beaf;
+  --danger-soft-hover: #fce4dc; /* coral, bukan kuning */
+  --danger-strong-soft: #fbebe8;
+  --danger-strong-ink: #b8381d; /* 5.4:1 di --danger-strong-soft */
+  --danger-strong-line: #f3a595;
+
+  --info: #1f6d9c;
+  --info-foreground: #ffffff;
+  --info-soft: #f0f8fd;
+  --info-ink: #1f6d9c; /* 5.2:1 di --info-soft */
+  --info-line: #bce0f6;
+  --info-soft-hover: #e0f0fa;
+
+  --neutral-soft: #eef7f6;
+  --neutral-ink: #3f6663; /* 5.9:1 di --neutral-soft */
+  --neutral-line: #d4eae7;
+
+  --gold: #ffd23f;
+  --gold-light: #ffe47a;
+  --gold-dark: #e6b800;
+  --gold-ink: #3d2e00; /* 12.6:1 di --gold */
+  --gold-line: #e6b800;
+  --gold-soft: #fff8e7;
+  --gold-soft-hover: #f9edd0;
+
+  --coral: #c4441f;
+  --coral-light: #ff8a6a;
+  --coral-dark: #d45233;
+
+  --cream: #fff8e7;
+  --cream-ink: #3d3422; /* 11.4:1 di --cream */
+  --cream-line: #e8dcb8;
+  --cream-soft-hover: #f9edd0;
+
+  --sky: #5dade2;
+
+  --brand-panel: #146360; /* teks putih 6.4:1 */
+  --brand-panel-ink: #ffffff;
+  --brand-panel-soft: #1e8c86;
+  --radius: 0.75rem;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #153331;
+  --sidebar-primary: #2BA8A2;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E8F6F5;
+  --sidebar-accent-foreground: #1E8C86;
+  --sidebar-border: #D4EAE7;
+  --sidebar-ring: #2BA8A2;
+
+  /* Chrome di luar komponen (scrollbar, seleksi, grid chart, bayangan kartu).
+     Dulu hex hardcode di blok @layer base, sehingga tidak pernah ikut tema. */
+  --chart-grid: #dcefec;
+  --scrollbar-thumb: #BDE3DF;
+  --scrollbar-thumb-hover: #2BA8A2;
+  --selection-bg: #D4F2EF;
+  --selection-fg: #1E8C86;
+  --shadow-card: 0 4px 20px rgba(43, 168, 162, 0.08);
+}
+
+/* Halaman publik (root + login) tidak punya dark mode: elemen `.light-scope`
+   membatalkan blok di bawah, jadi token dark tidak pernah diwarisi ke sana
+   (termasuk portal/dialog). `color-scheme` dipaksa light supaya scrollbar dan
+   kontrol native tidak gelap di halaman yang light. */
+html:has(.light-scope) {
+  color-scheme: light !important;
+}
+
+/* Dark mode adalah sistem visual tersendiri, bukan "light digelapkan".
+   Aturan yang dipegang:
+   - Permukaan (background/card/secondary/muted/accent/neutral) NETRAL. Teal tidak
+     pernah jadi warna latar; ia hanya aksen.
+   - Elevasi lewat perbedaan surface + border tipis, bukan shadow. Semua shadow
+     berwarna dimatikan di dark (lihat blok `.dark .shadow-*` di bawah).
+   - Teal tetap hidup dizelnya: primary action, status aktif, chart highlight. */
+.dark:not(:has(.light-scope)) {
+  --background: #0f1413; /* netral gelap, bukan teal */
+  --foreground: #f2f4f3; /* 16.6:1 di --background */
+  --card: #151c1a;
+  --card-foreground: #f2f4f3;
+  --popover: #1d2724; /* satu tingkat di atas card: dropdown, dialog */
+  --popover-foreground: #f2f4f3;
+  --primary: #3cc4bd;
+  --primary-foreground: #0f1413; /* 9.1:1 di --primary */
+  --secondary: #18211f;
+  --secondary-foreground: #f2f4f3;
+  --muted: #18211f;
+  --muted-foreground: #a7b2ae; /* 7.4:1 di --background, 6.6:1 di --card */
+  --accent: #1d2724;
+  --accent-foreground: #f2f4f3;
+  --destructive: #ff8a6a;
+  --destructive-foreground: #0f1413;
+  --border: #26332f; /* pemisah tipis, bukan elemen visual */
+  --input: #5a6a65; /* batas input 3.04:1 vs --card (WCAG 1.4.11) */
+  --ring: #3cc4bd;
+  --chart-1: #3cc4bd;
+  --chart-2: #4ade80;
+  --chart-3: #ff8a6a;
+  --chart-4: #5dade2;
+  --chart-5: #ffd23f;
+  --chart-grid: #222e2b; /* grid chart: sengaja di bawah batas terlihat */
+  --scrollbar-thumb: #2a3733;
+  --scrollbar-thumb-hover: #3a4a45;
+  --selection-bg: #16302d;
+  --selection-fg: #6fd6cf;
+  --shadow-card: none; /* elevasi lewat surface + border */
+
+  /* ── keluarga tint: dark ────────────────────────────────────────────────
+     Teks gelap selalu dibuat lebih terang, latar lebih pekat: di layar gelap
+     yang perlu kontras adalah teks terhadap latar, bukan latar terhadap teks.
+     family `*-soft` hanya untuk permukaan kecil (chip, baris, icon box),
+     tidak pernah untuk latar halaman atau kartu besar. */
+  --teal: #3cc4bd;
+  --teal-light: #5ad4cd;
+  --teal-dark: #2ba8a2;
+  --teal-soft: #142a28; /* 6.5:1 teks putih di atasnya */
+  --teal-ink: #6fd6cf; /* 7.4:1 di --teal-soft */
+  --teal-line: #1e443f;
+  --teal-soft-hover: #1a3634;
+
+  --success: #4ade80;
+  --success-foreground: #0f1413; /* 12.8:1 di --success */
+  --success-soft: #10231a;
+  --success-ink: #6ee7b7; /* 10.4:1 di --success-soft */
+  --success-line: #2a4a38;
+  --success-soft-hover: #1a3226;
+
+  --warning: #ffd23f;
+  --warning-foreground: #0f1413; /* 13.4:1 di --warning */
+  --warning-soft: #23200c;
+  --warning-ink: #ffe47a; /* 10.8:1 di --warning-soft */
+  --warning-line: #5a4a16;
+  --warning-soft-hover: #322d10;
+
+  --danger-soft: #2b1712;
+  --danger-ink: #ff8a6a; /* 7.4:1 di --danger-soft */
+  --danger-line: #5e2a20;
+  --danger-soft-hover: #40201a;
+  --danger-strong-soft: #341613;
+  --danger-strong-ink: #ffa58d; /* 8.6:1 di --danger-strong-soft */
+  --danger-strong-line: #6b2a1e;
+
+  --info: #7ec8f5;
+  --info-foreground: #0f1413; /* 9.2:1 di --info */
+  --info-soft: #122430;
+  --info-ink: #93c5fd; /* 8.9:1 di --info-soft */
+  --info-line: #24485c;
+  --info-soft-hover: #1b3646;
+
+  --neutral-soft: #18211f;
+  --neutral-ink: #a7b2ae; /* 6.8:1 di --neutral-soft */
+  --neutral-line: #26332f;
+
+  --gold: #ffd23f;
+  --gold-light: #ffe47a;
+  --gold-dark: #e6b800;
+  --gold-ink: #ffe47a; /* 10.8:1 di --gold */
+  --gold-line: #5a4a16;
+  --gold-soft: #23200c;
+  --gold-soft-hover: #322d10;
+
+  --coral: #ff8a6a;
+  --coral-light: #ffa58d;
+  --coral-dark: #d45233;
+
+  --cream: #211e15;
+  --cream-ink: #f5eedc; /* 13.2:1 di --cream */
+  --cream-line: #3a3524;
+  --cream-soft-hover: #2c2818;
+
+  --sky: #5dade2;
+
+  --brand-panel: #122422; /* tautan brand-panel-soft di dalamnya: 7.1:1 */
+  --brand-panel-ink: #f2f4f3;
+  --brand-panel-soft: #3cc4bd;
+  --sidebar: #121917;
+  --sidebar-foreground: #f2f4f3;
+  --sidebar-primary: #3cc4bd;
+  --sidebar-primary-foreground: #0f1413;
+  --sidebar-accent: #1d2724;
+  --sidebar-accent-foreground: #f2f4f3;
+  --sidebar-border: #232e2b;
+  --sidebar-ring: #3cc4bd;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+  }
+  html {
+    @apply font-sans;
+  }
+  ::selection {
+    background: var(--selection-bg);
+    color: var(--selection-fg);
+  }
+  input,
+  textarea,
+  select {
+    caret-color: var(--ring);
+  }
+  /* Ketebalan ikon: default Lucide 2 di 16px berarti 12.5% lebar, di 14px
+     jadi 14.3% dan stroke-nya menumpuk jadi gumpal di dalam badge 11px.
+     1.75 membuat rasio stroke terhadap ukuran tetap di 12.5% untuk tiers
+     14/16px, dan masih terbaca di layar terang maupun gelap.
+     Ditulis di sini, bukan per-komponen, supaya tidak ada ikon yang luput. */
+  svg.lucide {
+    stroke-width: 1.75;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    background-color: var(--scrollbar-thumb);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+  /* Ganti tema terasa mulus tanpa menganimasikan seluruh halaman. Hanya warna
+     permukaan halaman yang transisi; komponen lain sudah punya transition
+     sendiri pada hover/focus. Dibatasi 150ms dan dimatikan untuk pengguna yang
+     meminta reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    body {
+      transition:
+        background-color 150ms ease-out,
+        color 150ms ease-out;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Hormati preferensi pengguna yang sensitif terhadap gerakan. Animasi angka
+   (@number-flow) sudah menghormatinya sendiri; ini menutup transisi
+   dialog/menu, slide, dan hover.
+
+   Pengecualian: `animate-spin` (Loader2) dan `animate-pulse` (Skeleton) tetap
+   jalan. Keduanya adalah umpan balik "sedang memuat" — membekukannya membuat
+   tombol dan placeholder terlihat macet, bukan lebih ramah. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-spin,
+  .animate-pulse {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Flip7 Elevation & Tactile Utilities
+   Penting: kelas ini TIDAK boleh menulis `box-shadow` langsung. Aturan tanpa
+   @layer menang atas semua utility Tailwind, sehingga menimpa
+   `focus-visible:ring-*` dan membuat indikator fokus tombol jadi tak terlihat.
+   Isi `--tw-shadow`, lalu komposisi ulang agar ring tetap bisa ikut.
+   Dark: `--shadow-card` bernilai `none` dan utilitas berwarna ikut dimatikan,
+   karena di latar hampir-hitam elevasi hanya datang dari perbedaan surface
+   dan border. */
+.shadow-card {
+  box-shadow: var(--shadow-card);
+}
+.shadow-teal-sm,
+.shadow-gold-sm,
+.shadow-coral-sm {
+  box-shadow: var(--tw-inset-shadow, 0 0 #0000), var(--tw-inset-ring-shadow, 0 0 #0000),
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-teal-sm {
+  --tw-shadow: 0 2px 10px rgba(43, 168, 162, 0.16);
+}
+.shadow-gold-sm {
+  --tw-shadow: 0 2px 10px rgba(255, 210, 63, 0.28);
+}
+.shadow-coral-sm {
+  --tw-shadow: 0 2px 10px rgba(239, 108, 74, 0.22);
+}
+
+/* Bayangan hanya untuk elemen yang benar-benar melayang: dropdown, dialog,
+   popover, tooltip. Kartu dan tombol tidak butuh bayangan di dark. */
+.dark .shadow-teal-sm,
+.dark .shadow-gold-sm,
+.dark .shadow-coral-sm {
+  --tw-shadow: 0 0 #0000;
+}
+
+/* Animasi ilustrasi halaman maintenance.
+   Bukan dekorasi: roda gigi berputar dan baris buku kas tergambar sebagai
+   tanda sedang dikerjakan.
+
+   Sequencenya BERHENTI, bukan loop. Tiga putaran lalu diam. Alasannya sesuai
+   DESIGN.md (MOTION 1): halaman ini adalah halaman mati yang orang lihat
+   selama beberapa detik, bukan halaman yang butuh gerakan terus-menerus. Blok
+   `prefers-reduced-motion` di atas otomatis mematikan semuanya, jadi ini tidak
+   perlu media query sendiri. */
+@keyframes ks-gear-turn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1080deg);
+  }
+}
+@keyframes ks-ledger-draw {
+  0% {
+    stroke-dashoffset: 40;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.45;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.45;
+  }
+}
+@keyframes ks-connector-move {
+  from {
+    stroke-dashoffset: 10;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.ks-maint-gear {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ks-gear-turn 2.7s cubic-bezier(0.4, 0, 0.2, 1) 3;
+}
+.ks-maint-ledger {
+  stroke-dasharray: 40;
+  animation: ks-ledger-draw 2.7s ease-out 3;
+}
+.ks-maint-connector {
+  animation: ks-connector-move 1.2s linear 3;
+}
+
+@media print {
+  [data-slot="sidebar-wrapper"],
+  [data-slot="sidebar-gap"],
+  [data-slot="sidebar-container"],
+  header,
+  [data-slot="sidebar-trigger"] {
+    display: none !important;
+  }
+  [data-slot="sidebar-inset"] {
+    padding: 0 !important;
+  }
+  main {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+  body {
+    background: white;
+  }
 }
