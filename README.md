@@ -126,11 +126,11 @@ halaman kosong.
 
 **Mode rawat per kelas.** `classes.maintenance` dijalankan manual Super Admin
 sebelum update. Saat aktif, semua route API membalas 503 dan halaman admin serta
-siswa diganti layar rawat. Layout bendahara punya paginated role guard saja:
-API-nya tetap 503, jadi halamannya kosong, bukan layar rawat. `/api/auth/me`
-sengaja tidak diblokir supaya pemulihan dan deteksi sesi tetap jalan. Berbeda
-dari `classes.is_active=false`, yang menutup kelas secara permanen dan menolak
-login dengan 403.
+siswa diganti layar rawat. Layout bendahara hanya punya role guard, tanpa
+pemeriksaan rawat, jadi API-nya tetap 503 dan halamannya kosong, bukan layar
+rawat. `/api/auth/me` sengaja tidak diblokir supaya pemulihan dan deteksi sesi
+tetap jalan. Berbeda dari `classes.is_active=false`, yang menutup kelas secara
+permanen dan menolak login dengan 403.
 
 **DOKU.** `create` membuat transaksi PENDING dengan `payment_method='qris'`
 sebagai placeholder; kanal sebenarnya ditulis ulang saat notifikasi masuk.
@@ -143,4 +143,3 @@ checkout, itu konfigurasi portal DOKU, bukan kode.
 |---|---|
 | `AGENTS.md` | Acuan kerja untuk coding agent: aturan auth, maintenance, DOKU |
 | `DESIGN.md` | Arah visual, token warna, tipografi, komponen |
-| `PRD V2 — Update Authentication & Student Dashboard.md` | PRD auth, role, dan dashboard siswa |
