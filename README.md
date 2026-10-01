@@ -143,5 +143,4 @@ checkout, itu konfigurasi portal DOKU, bukan kode.
 |---|---|
 | `AGENTS.md` | Acuan kerja untuk coding agent: aturan auth, maintenance, DOKU |
 | `DESIGN.md` | Arah visual, token warna, tipografi, komponen |
-| `prd.md` | PRD asli: integrasi Google Sheets dan notifikasi |
 | `PRD V2 — Update Authentication & Student Dashboard.md` | PRD auth, role, dan dashboard siswa |
